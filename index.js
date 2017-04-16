@@ -11,7 +11,12 @@ app.get('/', function(req, res) {
 app.get('/time', (req, res) => {
     const osloTime = Moment().tz('Europe/Oslo').format('DD MMM YYYY - HH:mm');
     const bkkTime = Moment().tz('Asia/Bangkok').format('DD MMM YYYY - HH:mm');
-    res.send(`Oslo ${osloTime}\nBangkok ${bkkTime}`);
+    res.json(
+        {
+            "response_type": "in_channel",
+            "text": `Oslo ${osloTime}\nBangkok ${bkkTime}`
+        }
+    );
 });
 
 app.listen(app.get('port'), function() {
