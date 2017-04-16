@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "PFS",
@@ -13,5 +15,8 @@
     "express": "^4.15.2",
     "lodash": "^4.17.4",
     "moment-timezone": "^0.5.13"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
