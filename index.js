@@ -43,19 +43,26 @@ app.post('/time', (req, res) => {
         countryCodes = 'no,pk,bd,mm,th'
     }
 
-    let text = countryCodes.split(',').map((code) => {
+    let result = countryCodes.split(',').map((code) => {
         const country = countryList[code];
         if(country) {
             const time = Moment().tz(country.timezone).format('ddd DD MMM YY - HH:mm (UTCZ)');
             return `_*${country.name}* ${time}_`;
         }
-        return '';
     });
+
+    let responseType = 'ephemeral';
+    let text = 'Only `all` and countries code (`no`,`pk`,`bd`,`mm`,`th`) are supported. Multi countries are allowed by comma separating.';
+
+    if (_.every(result)) {
+        responseType = 'in_channel';
+        text = _.join(result, '\n');
+    }
 
     res.json(
         {
-            "response_type": "in_channel",
-            "text": _.join(text, '\n')
+            'response_type': responseType,
+            'text': text
         }
     );
 });
