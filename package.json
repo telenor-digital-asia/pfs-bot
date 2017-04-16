@@ -9,6 +9,7 @@
   "author": "PFS",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.2"
+    "express": "^4.15.2",
+    "moment-timezone": "^0.5.13"
   }
 }
