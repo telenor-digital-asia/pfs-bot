@@ -14,13 +14,31 @@ app.get('/', function(req, res) {
 });
 
 app.post('/time', (req, res) => {
-    console.log(req.body);
-    const osloTime = Moment().tz('Europe/Oslo').format('DD MMM YYYY - HH:mm');
-    const bkkTime = Moment().tz('Asia/Bangkok').format('DD MMM YYYY - HH:mm');
+    const timezoneList = {
+        no: 'Europe/Oslo',
+        th: 'Asia/Bangkok',
+        bd: 'Asia/Dhaka',
+        pk: 'Asia/Karachi',
+        mm: 'Asia/Yangon'
+    };
+
+    let countryCodes = req.body.text && req.body.text.toLowerCase() || '';
+    if(countryCodes === '' || countryCodes === 'all') {
+        countryCodes = 'no,th,bd,pk,mm'
+    }
+
+    let text = countryCodes.split(',').map((code) => {
+        if(timezoneList[code]) {
+            const time = Moment().tz(timezoneList[code]).format('DD MMM YYYY - HH:mm');
+            return `${timezoneList[code]} ${time}`;
+        }
+        return '';
+    });
+
     res.json(
         {
             "response_type": "in_channel",
-            "text": `Oslo ${osloTime}\nBangkok ${bkkTime}`
+            "text": text
         }
     );
 });
