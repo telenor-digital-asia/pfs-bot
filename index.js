@@ -38,12 +38,15 @@ app.post('/time', (req, res) => {
         }
     };
 
-    let countryCodes = req.body.text && req.body.text.toLowerCase() || '';
-    if(countryCodes === '' || countryCodes === 'all') {
-        countryCodes = 'no,pk,bd,mm,th'
+    let countryCodesString = req.body.text && req.body.text.toLowerCase() || '';
+    if(countryCodesString === '' || countryCodesString === 'all') {
+        countryCodesString = 'no,pk,bd,mm,th';
     }
 
-    let result = countryCodes.split(',').map((code) => {
+    let countryCodes = _.split(countryCodesString, ',');
+    countryCodes = _.uniq(countryCodes);
+
+    let result = _.map(countryCodes, (code) => {
         const country = countryList[code];
         if(country) {
             const time = Moment().tz(country.timezone).format('ddd DD MMM YY - HH:mm (UTCZ)');

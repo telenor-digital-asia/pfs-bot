@@ -68,4 +68,17 @@ describe('/time', () => {
                 done();
             });
     });
+
+    it('should not return dupicated result', (done) => {
+        chai.request(index)
+            .post('/time')
+            .set('content-type', 'application/x-www-form-urlencoded')
+            .send({'text': 'no,no'})
+            .end((err, res) => {
+                expect(res.status).to.be.ok;
+                expect(res.text).to.match(/Oslo/);
+                expect(res.text).to.not.match(/\n/);
+                done();
+            });
+    });
 });
