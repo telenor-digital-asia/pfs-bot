@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const Moment = require('moment-timezone');
+const _ = require('lodash');
 
 let app = express();
 
@@ -38,7 +39,7 @@ app.post('/time', (req, res) => {
     res.json(
         {
             "response_type": "in_channel",
-            "text": text
+            "text": _.join(text, '\n')
         }
     );
 });
