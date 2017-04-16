@@ -1,6 +1,11 @@
+const bodyParser = require('body-parser');
 const express = require('express');
-const app = express();
 const Moment = require('moment-timezone');
+
+let app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.set('port', (process.env.PORT || 3000));
 
@@ -9,7 +14,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/time', (req, res) => {
-    console.log(req);
+    console.log(req.body);
     const osloTime = Moment().tz('Europe/Oslo').format('DD MMM YYYY - HH:mm');
     const bkkTime = Moment().tz('Asia/Bangkok').format('DD MMM YYYY - HH:mm');
     res.json(
