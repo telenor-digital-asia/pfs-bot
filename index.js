@@ -9,7 +9,7 @@ app.get('/', function(req, res) {
 });
 
 app.post('/time', (req, res) => {
-    console.log(req.body);
+    console.log(req);
     const osloTime = Moment().tz('Europe/Oslo').format('DD MMM YYYY - HH:mm');
     const bkkTime = Moment().tz('Asia/Bangkok').format('DD MMM YYYY - HH:mm');
     res.json(
