@@ -15,23 +15,39 @@ app.get('/', function(req, res) {
 });
 
 app.post('/time', (req, res) => {
-    const timezoneList = {
-        no: 'Europe/Oslo',
-        th: 'Asia/Bangkok',
-        bd: 'Asia/Dhaka',
-        pk: 'Asia/Karachi',
-        mm: 'Asia/Yangon'
+    const countryList = {
+        no: {
+            name: 'Oslo',
+            timezone: 'Europe/Oslo'
+        },
+        th: {
+            name: 'Bangkok',
+            timezone: 'Asia/Bangkok'
+        },
+        bd: {
+            name: 'Dhaka',
+            timezone: 'Asia/Dhaka'
+        },
+        pk: {
+            name: 'Islamabad',
+            timezone: 'Asia/Karachi'
+        },
+        mm: {
+            name: 'Yangon',
+            timezone: 'Asia/Yangon',
+        }
     };
 
     let countryCodes = req.body.text && req.body.text.toLowerCase() || '';
     if(countryCodes === '' || countryCodes === 'all') {
-        countryCodes = 'no,th,bd,pk,mm'
+        countryCodes = 'no,pk,bd,mm,th'
     }
 
     let text = countryCodes.split(',').map((code) => {
-        if(timezoneList[code]) {
-            const time = Moment().tz(timezoneList[code]).format('DD MMM YYYY - HH:mm');
-            return `${timezoneList[code]} ${time}`;
+        const country = countryList[code];
+        if(country) {
+            const time = Moment().tz(country.timezone).format('ddd DD MMM YY - HH:mm (UTCZ)');
+            return `_*${country.name}* ${time}_`;
         }
         return '';
     });
